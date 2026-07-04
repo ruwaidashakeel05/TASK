@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Taskflow Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="dashboard-shell">
+      <aside class="sidebar" aria-label="Dashboard navigation">
+        <div class="brand">
+          <span class="brand-mark">T</span>
+          <div>
+            <strong>Taskflow</strong>
+            <small>CSV workspace</small>
+          </div>
+        </div>
+        <nav class="nav-stack" aria-label="Sections">
+          <a class="nav-item active" href="#overview">Overview</a>
+          <a class="nav-item" href="#tasks">Tasks</a>
+          <a class="nav-item" href="#planning">Planning</a>
+        </nav>
+        <div class="sidebar-note">
+          <span id="completionRate">0%</span>
+          <p>completion rate</p>
+        </div>
+      </aside>
+
+      <section class="main-panel">
+        <header class="hero-bar" id="overview">
+          <div>
+            <p class="eyebrow">Task operations</p>
+            <h1>Dashboard for the work in motion.</h1>
+          </div>
+          <div class="hero-actions" aria-label="Dashboard controls">
+            <label class="search-control">
+              <span>Search</span>
+              <input id="searchInput" type="search" placeholder="Search title or details">
+            </label>
+          </div>
+        </header>
+
+        <section class="metric-grid" aria-label="Task metrics">
+          <article class="metric-panel">
+            <span>Total tasks</span>
+            <strong id="totalCount">0</strong>
+            <p id="totalHint">No tasks yet</p>
+          </article>
+          <article class="metric-panel accent-green">
+            <span>Completed</span>
+            <strong id="doneCount">0</strong>
+            <p id="doneHint">Nothing completed</p>
+          </article>
+          <article class="metric-panel accent-gold">
+            <span>Pending</span>
+            <strong id="pendingCount">0</strong>
+            <p id="pendingHint">Nothing pending</p>
+          </article>
+          <article class="metric-panel accent-red">
+            <span>High priority</span>
+            <strong id="highCount">0</strong>
+            <p id="highHint">No urgent items</p>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <section class="task-command" id="tasks" aria-label="Create and filter tasks">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Command center</p>
+                <h2>Create task</h2>
+              </div>
+              <div class="segments" role="tablist" aria-label="Filter tasks">
+                <button class="segment active" type="button" data-filter="all">All</button>
+                <button class="segment" type="button" data-filter="pending">Pending</button>
+                <button class="segment" type="button" data-filter="completed">Done</button>
+              </div>
+            </div>
+
+            <form id="taskForm" class="task-form">
+              <label class="field wide">
+                <span>Task</span>
+                <input id="titleInput" name="title" type="text" placeholder="Prepare project review" required>
+              </label>
+              <label class="field wide">
+                <span>Details</span>
+                <input id="descriptionInput" name="description" type="text" placeholder="Add the context that makes action easy">
+              </label>
+              <label class="field">
+                <span>Priority</span>
+                <select id="priorityInput" name="priority">
+                  <option value="high">High</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Due date</span>
+                <input id="dueDateInput" name="due_date" type="date">
+              </label>
+              <button class="primary-button" type="submit">Add task</button>
+            </form>
+
+            <div class="task-board" aria-live="polite">
+              <div class="board-header">
+                <h2>Task queue</h2>
+                <span id="visibleCount">0 shown</span>
+              </div>
+              <div id="emptyState" class="empty-state">
+                <strong>No matching tasks</strong>
+                <span>Add a task or adjust the filter.</span>
+              </div>
+              <ul id="taskList" class="task-list"></ul>
+            </div>
+          </section>
+
+          <aside class="insight-panel" id="planning" aria-label="Planning insights">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Planning</p>
+                <h2>Focus snapshot</h2>
+              </div>
+            </div>
+
+            <div class="progress-block">
+              <div class="progress-copy">
+                <span>Completion</span>
+                <strong id="progressLabel">0%</strong>
+              </div>
+              <div class="progress-track" aria-hidden="true">
+                <span id="progressBar"></span>
+              </div>
+            </div>
+
+            <div class="priority-stack" aria-label="Priority breakdown">
+              <div>
+                <span class="dot red"></span>
+                <p>High</p>
+                <strong id="highBreakdown">0</strong>
+              </div>
+              <div>
+                <span class="dot gold"></span>
+                <p>Medium</p>
+                <strong id="mediumBreakdown">0</strong>
+              </div>
+              <div>
+                <span class="dot green"></span>
+                <p>Low</p>
+                <strong id="lowBreakdown">0</strong>
+              </div>
+            </div>
+
+            <div class="next-panel">
+              <span>Next due</span>
+              <strong id="nextDueTitle">Nothing scheduled</strong>
+              <p id="nextDueMeta">Add due dates to build a timeline.</p>
+            </div>
+          </aside>
+        </section>
+      </section>
+    </main>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
